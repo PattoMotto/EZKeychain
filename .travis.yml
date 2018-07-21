@@ -1,6 +1,6 @@
 language: objective-c
 osx_image: xcode9
-xcode_sdk: iphonesimulator11.0
 podfile: Example/Podfile
-xcode_workspace: Example/EZKeychain.xcworkspace
-xcode_scheme: EZKeychain-Example
+
+script:
+  - xcodebuild test -workspace Example/EZKeychain.xcworkspace -scheme EZKeychain-Example -destination "platform=iOS Simulator,name=iPhone 8" -sdk iphonesimulator11.0
