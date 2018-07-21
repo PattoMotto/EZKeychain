@@ -1,0 +1,22 @@
+{
+  "name": "EZKeychain",
+  "version": "0.1.0",
+  "summary": "A short description of EZKeychain.",
+  "description": "TODO: Add long description of the pod here.",
+  "homepage": "https://github.com/neungnarakjung/EZKeychain",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "authors": {
+    "neungnarakjung": "neungnarakjung@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/neungnarakjung/EZKeychain.git",
+    "tag": "0.1.0"
+  },
+  "platforms": {
+    "ios": "8.0"
+  },
+  "source_files": "EZKeychain/Classes/**/*"
+}

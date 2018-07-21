@@ -1,0 +1,6 @@
+framework module EZKeychain {
+  umbrella header "EZKeychain-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -1,0 +1,11 @@
+use_frameworks!
+
+target 'EZKeychain_Example' do
+  pod 'EZKeychain', :path => '../'
+
+  target 'EZKeychain_Tests' do
+    inherit! :search_paths
+
+    
+  end
+end
