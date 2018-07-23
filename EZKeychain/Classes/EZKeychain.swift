@@ -2,12 +2,14 @@ import Security
 
 @objc public protocol EZKeychainObjc {
     func readObject(_ key: String) -> Any?
-    func writeObject(key: String, value: Any) -> Bool
+    @discardableResult func writeObject(key: String, value: Any) -> Bool
     func readData(_ key: String) -> Data?
-    func writeData(key: String, value: Data) -> Bool
+    @discardableResult func writeData(key: String, value: Data) -> Bool
     func readString(_ key: String) -> String?
-    func writeString(key: String, value: String) -> Bool
-    func clear(_ key: String) -> Bool
+    @discardableResult func writeString(key: String, value: String) -> Bool
+    func readPList(_ key: String) -> Any?
+    @discardableResult func writePList(key: String, value: Any) -> Bool
+    @discardableResult func clear(_ key: String) -> Bool
 }
 
 public protocol EZKeychainGeneric {
@@ -84,7 +86,6 @@ public protocol EZKeychainGeneric {
     private func queryForRead(_ key: String) -> [String: Any] {
         var query: [String: Any] = [kSecAttrService as String: service,
                                     kSecClass as String: kSecClassGenericPassword,
-                                    kSecAttrAccessible as String: accessible.cfString(),
                                     kSecMatchLimit as String: kSecMatchLimitOne,
                                     kSecReturnAttributes as String: true,
                                     kSecReturnData as String: true,
@@ -220,6 +221,28 @@ extension EZKeychain: EZKeychainObjc {
 
     @discardableResult public func writeString(key: String, value: String) -> Bool {
         guard let encodedData = value.data(using: .utf8) else { return false }
+        return commonWrite(
+            key: key,
+            value: encodedData
+        )
+    }
+
+    public func readPList(_ key: String) -> Any? {
+        guard let data = commonRead(key) else { return nil }
+        var format = PropertyListSerialization.PropertyListFormat.binary
+        return try? PropertyListSerialization.propertyList(
+            from: data,
+            options: .mutableContainers,
+            format: &format
+        )
+    }
+
+    @discardableResult public func writePList(key: String, value: Any) -> Bool {
+        guard let encodedData = try? PropertyListSerialization.data(
+            fromPropertyList: value,
+            format: .binary,
+            options: 0
+            ) else { return false }
         return commonWrite(
             key: key,
             value: encodedData
