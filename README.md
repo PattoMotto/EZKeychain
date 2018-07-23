@@ -5,6 +5,10 @@
 [![License](https://img.shields.io/cocoapods/l/EZKeychain.svg?style=flat)](https://cocoapods.org/pods/EZKeychain)
 [![Platform](https://img.shields.io/cocoapods/p/EZKeychain.svg?style=flat)](https://cocoapods.org/pods/EZKeychain)
 
+## Description
+
+Lightweight Keychain API wrapper, Just another Keychain(iOS secure persistent storage) wrapper.
+
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
