@@ -7,7 +7,10 @@
 
 ## Description
 
-Lightweight Keychain API wrapper, Just another Keychain(iOS secure persistent storage) wrapper.
+Lightweight [Keychain API](https://developer.apple.com/documentation/security/keychain_services) wrapper.
+Yes this just another one :)
+
+You may wanna check this cool [Keychain wrapper](https://github.com/evgenyneu/keychain-swift)
 
 ## Example
 
