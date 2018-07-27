@@ -21,10 +21,10 @@ final class KeychainExample {
     }
 
     func read() {
-        print(keyString, keychain.readString(keyString))
-        print(keyData, keychain.readData(keyData))
-        print(keyObject, keychain.readObject(keyObject))
-        let doubleValue:FooBarStruct? = keychain.read(keyCodable)
+        print(keyString, keychain.readString(key: keyString))
+        print(keyData, keychain.readData(key: keyData))
+        print(keyObject, keychain.readObject(key: keyObject))
+        let doubleValue:FooBarStruct? = keychain.read(key: keyCodable)
         print(keyCodable, doubleValue)
     }
     func write() {
@@ -34,9 +34,9 @@ final class KeychainExample {
         keychain.write(key: keyCodable, value: FooBarStruct(foo: "Foo", bar: 11))
     }
     func clear() {
-        keychain.clear(keyString)
-        keychain.clear(keyData)
-        keychain.clear(keyObject)
-        keychain.clear(keyCodable)
+        keychain.clear(key: keyString)
+        keychain.clear(key: keyData)
+        keychain.clear(key: keyObject)
+        keychain.clear(key: keyCodable)
     }
 }

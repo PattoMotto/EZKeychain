@@ -1,22 +1,24 @@
 import Security
 
 @objc public protocol EZKeychainObjc {
-    func readObject(_ key: String) -> Any?
+    func readObject(key: String) -> Any?
     @discardableResult func writeObject(key: String, value: Any) -> Bool
-    func readData(_ key: String) -> Data?
+    func readData(key: String) -> Data?
     @discardableResult func writeData(key: String, value: Data) -> Bool
-    func readString(_ key: String) -> String?
+    func readString(key: String) -> String?
     @discardableResult func writeString(key: String, value: String) -> Bool
-    func readPList(_ key: String) -> Any?
+    func readPList(key: String) -> Any?
     @discardableResult func writePList(key: String, value: Any) -> Bool
-    @discardableResult func clear(_ key: String) -> Bool
+    @discardableResult func clear(key: String) -> Bool
 }
 
 public protocol EZKeychainGeneric {
-    func read<T>(_ key: String) -> T? where T : Codable
-    func write<T>(key: String, value: T) -> Bool where T : Codable
-    func clear(_ key: String) -> Bool
+    func read<T>(key: String) -> T? where T: Codable
+    func write<T>(key: String, value: T) -> Bool where T: Codable
+    @discardableResult func clear(key: String) -> Bool
 }
+
+public typealias EZKeychainStorable = EZKeychainObjc & EZKeychainGeneric
 
 @objc public enum EZKeychainAccessible: Int {
     case whenUnlocked
@@ -27,7 +29,7 @@ public protocol EZKeychainGeneric {
     case afterFirstUnlockThisDeviceOnly
     case alwaysThisDeviceOnly
 
-    func cfString() -> CFString {
+    func attr() -> CFString {
         switch self {
         case .whenUnlocked:
             return kSecAttrAccessibleWhenUnlocked
@@ -47,19 +49,17 @@ public protocol EZKeychainGeneric {
     }
 }
 
-@objc public final class EZKeychain: NSObject {
+@objc open class EZKeychain: NSObject {
 
-    private static let bunbleId: String = Bundle.main.bundleIdentifier!
+    private let service: String
+    private let accessible: EZKeychainAccessible
+    private let accessGroup: String?
 
-    fileprivate let service: String
-    fileprivate let accessible: EZKeychainAccessible
-    fileprivate let accessGroup: String?
-
-    @objc public static let shared: EZKeychain = EZKeychain()
+    @objc public static let shared = EZKeychain()
 
     @objc public override convenience init() {
         self.init(
-            service: EZKeychain.bunbleId,
+            service: Bundle.main.bundleIdentifier!,
             accessible: .afterFirstUnlock,
             accessGroup: nil
         )
@@ -83,7 +83,7 @@ public protocol EZKeychainGeneric {
         super.init()
     }
 
-    private func queryForRead(_ key: String) -> [String: Any] {
+    private func queryForRead(key: String) -> [String: Any] {
         var query: [String: Any] = [kSecAttrService as String: service,
                                     kSecClass as String: kSecClassGenericPassword,
                                     kSecMatchLimit as String: kSecMatchLimitOne,
@@ -99,7 +99,7 @@ public protocol EZKeychainGeneric {
     private func queryForWrite(key: String, value: Data) -> [String: Any] {
         var query: [String: Any] = [kSecAttrService as String: service,
                                     kSecClass as String: kSecClassGenericPassword,
-                                    kSecAttrAccessible as String: accessible.cfString(),
+                                    kSecAttrAccessible as String: accessible.attr(),
                                     kSecAttrAccount as String: key,
                                     kSecValueData as String: value]
         if let accessGroup = accessGroup {
@@ -108,7 +108,7 @@ public protocol EZKeychainGeneric {
         return query
     }
 
-    private func queryForSearchUpdate(_ key: String) -> [String: Any] {
+    private func queryForSearchUpdate(key: String) -> [String: Any] {
         var query: [String: Any] = [kSecAttrService as String: service,
                                     kSecClass as String: kSecClassGenericPassword,
                                     kSecAttrAccount as String: key]
@@ -120,26 +120,26 @@ public protocol EZKeychainGeneric {
 
     private func queryForUpdate(key: String, value: Data) -> [String: Any] {
         return [kSecValueData as String: value,
-                kSecAttrAccessible as String: accessible.cfString()]
+                kSecAttrAccessible as String: accessible.attr()]
     }
 
-    fileprivate func commonRead(_ key: String) -> Data? {
+    private func commonRead(key: String) -> Data? {
         var item: CFTypeRef?
         let status = SecItemCopyMatching(
-            queryForRead(key) as CFDictionary,
+            queryForRead(key: key) as CFDictionary,
             &item)
         guard status == errSecSuccess else { return nil }
         guard status != errSecItemNotFound else { return nil }
-        guard let existingItem = item as? [String : Any],
+        guard let existingItem = item as? [String: Any],
             let data = existingItem[kSecValueData as String] as? Data else { return nil }
         return data
     }
 
-    fileprivate func commonWrite(key: String, value: Data) -> Bool {
+    private func commonWrite(key: String, value: Data) -> Bool {
         var status: OSStatus
-        if commonRead(key) != nil {
+        if commonRead(key: key) != nil {
             status = SecItemUpdate(
-                queryForSearchUpdate(key) as CFDictionary,
+                queryForSearchUpdate(key: key) as CFDictionary,
                 queryForUpdate(key: key, value: value) as CFDictionary
             )
         } else {
@@ -154,11 +154,11 @@ public protocol EZKeychainGeneric {
 }
 
 extension EZKeychain: EZKeychainGeneric {
-    public func read<T>(_ key: String) -> T? where T : Codable {
+    public func read<T>(key: String) -> T? where T: Codable {
         if T.self is String.Type {
-            return readString(key) as? T
+            return readString(key: key) as? T
         } else {
-            guard let data = commonRead(key),
+            guard let data = commonRead(key: key),
                 let decodedData = try? JSONDecoder().decode(T.self, from: data) as T else {
                     return nil
             }
@@ -166,7 +166,7 @@ extension EZKeychain: EZKeychainGeneric {
         }
     }
 
-    @discardableResult public func write<T>(key: String, value: T) -> Bool where T : Codable {
+    @discardableResult public func write<T>(key: String, value: T) -> Bool where T: Codable {
         if let stringValue = value as? String {
             return writeString(key: key, value: stringValue)
         } else if let data = try? JSONEncoder().encode(value) {
@@ -175,10 +175,10 @@ extension EZKeychain: EZKeychainGeneric {
         return false
     }
 
-    @discardableResult public func clear(_ key: String) -> Bool {
+    @discardableResult public func clear(key: String) -> Bool {
         var query: [String: Any] = [kSecAttrService as String: service,
                                     kSecClass as String: kSecClassGenericPassword,
-                                    kSecAttrAccessible as String: accessible.cfString(),
+                                    kSecAttrAccessible as String: accessible.attr(),
                                     kSecAttrAccount as String: key]
         if let accessGroup = accessGroup {
             query[kSecAttrAccessGroup as String] = accessGroup
@@ -190,8 +190,8 @@ extension EZKeychain: EZKeychainGeneric {
 }
 
 extension EZKeychain: EZKeychainObjc {
-    public func readObject(_ key: String) -> Any? {
-        guard let data = commonRead(key) else { return nil }
+    public func readObject(key: String) -> Any? {
+        guard let data = commonRead(key: key) else { return nil }
         return NSKeyedUnarchiver.unarchiveObject(with: data)
     }
 
@@ -203,8 +203,8 @@ extension EZKeychain: EZKeychainObjc {
         )
     }
 
-    public func readData(_ key: String) -> Data? {
-        return commonRead(key)
+    public func readData(key: String) -> Data? {
+        return commonRead(key: key)
     }
 
     @discardableResult public func writeData(key: String, value: Data) -> Bool {
@@ -214,8 +214,8 @@ extension EZKeychain: EZKeychainObjc {
         )
     }
 
-    public func readString(_ key: String) -> String? {
-        guard let data = commonRead(key) else { return nil }
+    public func readString(key: String) -> String? {
+        guard let data = commonRead(key: key) else { return nil }
         return String(data: data, encoding: .utf8)
     }
 
@@ -227,8 +227,8 @@ extension EZKeychain: EZKeychainObjc {
         )
     }
 
-    public func readPList(_ key: String) -> Any? {
-        guard let data = commonRead(key) else { return nil }
+    public func readPList(key: String) -> Any? {
+        guard let data = commonRead(key: key) else { return nil }
         var format = PropertyListSerialization.PropertyListFormat.binary
         return try? PropertyListSerialization.propertyList(
             from: data,

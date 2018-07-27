@@ -32,9 +32,9 @@ NSString *const KeyObject = @"ObjectKey";
 }
 
 - (void)read {
-    NSLog(@"%@ %@", KeyString, [self.keychain readString:KeyString]);
-    NSLog(@"%@ %@", KeyData, [self.keychain readData:KeyData]);
-    NSLog(@"%@ %@", KeyObject, [self.keychain readObject:KeyObject]);
+    NSLog(@"%@ %@", KeyString, [self.keychain readStringWithKey:KeyString]);
+    NSLog(@"%@ %@", KeyData, [self.keychain readDataWithKey:KeyData]);
+    NSLog(@"%@ %@", KeyObject, [self.keychain readObjectWithKey:KeyObject]);
 }
 
 - (void)write {
@@ -47,8 +47,8 @@ NSString *const KeyObject = @"ObjectKey";
 }
 
 - (void)clear {
-    [self.keychain clear:KeyString];
-    [self.keychain clear:KeyData];
-    [self.keychain clear:KeyObject];
+    [self.keychain clearWithKey:KeyString];
+    [self.keychain clearWithKey:KeyData];
+    [self.keychain clearWithKey:KeyObject];
 }
 @end
