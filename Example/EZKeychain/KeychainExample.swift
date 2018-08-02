@@ -24,8 +24,8 @@ final class KeychainExample {
         print(keyString, keychain.readString(key: keyString))
         print(keyData, keychain.readData(key: keyData))
         print(keyObject, keychain.readObject(key: keyObject))
-        let doubleValue:FooBarStruct? = keychain.read(key: keyCodable)
-        print(keyCodable, doubleValue)
+        let foobar:FooBarStruct? = keychain.read(key: keyCodable)
+        print(keyCodable, foobar)
     }
     func write() {
         keychain.writeString(key: keyString, value: "Simple string")
