@@ -18,21 +18,21 @@ You may wanna check this cool [Keychain wrapper](https://github.com/evgenyneu/ke
 let keychain = EZKeychain.shared
 
 keychain.writeString(key: keyString, value: "Simple string")
-print(keyString, keychain.readString(keyString))
-keychain.clear(keyString)
+print(keyString, keychain.readString(key: keyString))
+keychain.clear(key: keyString)
 
 keychain.write(key: keyCodable, value: FooBarStruct(foo: "Foo", bar: 11))
-let foobar:FooBarStruct? = keychain.read(keyCodable)
+let foobar:FooBarStruct? = keychain.read(key: keyCodable)
 print(keyCodable, foobar)
-keychain.clear(keyCodable)
+keychain.clear(key: keyCodable)
 
 keychain.writeData(key: keyData, value: NSKeyedArchiver.archivedData(withRootObject: [111.11, 999.99]))
-print(keyData, keychain.readData(keyData))
-keychain.clear(keyData)
+print(keyData, keychain.readData(key: keyData))
+keychain.clear(key: keyData)
 
 keychain.writeObject(key: keyObject, value: ["Foo": 111.11])
-print(keyObject, keychain.readObject(keyObject))
-keychain.clear(keyObject)
+print(keyObject, keychain.readObject(key: keyObject))
+keychain.clear(key: keyObject)
 ```
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
