@@ -1,3 +1,4 @@
+platform :ios, '9.0'
 use_frameworks!
 
 target 'EZKeychain_Example' do
@@ -6,6 +7,6 @@ target 'EZKeychain_Example' do
   target 'EZKeychain_Tests' do
     inherit! :search_paths
 
-    
+
   end
 end
