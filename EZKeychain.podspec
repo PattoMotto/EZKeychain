@@ -8,7 +8,7 @@
 
 Pod::Spec.new do |s|
   s.name             = 'EZKeychain'
-  s.version          = '0.1.0'
+  s.version          = '0.2.0'
   s.summary          = 'Lightweight Keychain API wrapper'
 
 # This description is used to generate tags and improve search results.
@@ -17,9 +17,8 @@ Pod::Spec.new do |s|
 #   * Write the description between the DESC delimiters below.
 #   * Finally, don't worry about the indent, CocoaPods strips it!
 
-  s.description      = <<-DESC
-TODO: Add long description of the pod here.
-                       DESC
+  s.description      = 'Lightweight Keychain API wrapper. Yes this just another one :)
+  You may wanna check this cool Keychain wrapper https://github.com/evgenyneu/keychain-swift'
 
   s.homepage         = 'https://github.com/PattoMotto/EZKeychain'
   # s.screenshots     = 'www.example.com/screenshots_1', 'www.example.com/screenshots_2'
@@ -28,11 +27,11 @@ TODO: Add long description of the pod here.
   s.source           = { :git => 'https://github.com/PattoMotto/EZKeychain.git', :tag => s.version.to_s }
   s.social_media_url = 'https://twitter.com/PattoMotto'
 
+  s.platform = :ios
   s.ios.deployment_target = '8.0'
   s.swift_version = '4.0'
-
   s.source_files = 'EZKeychain/Classes/**/*'
-  
+
   # s.resource_bundles = {
   #   'EZKeychain' => ['EZKeychain/Assets/*.png']
   # }

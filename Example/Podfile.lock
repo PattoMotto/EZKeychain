@@ -1,5 +1,5 @@
 PODS:
-  - EZKeychain (0.1.0)
+  - EZKeychain (0.2.0)
 
 DEPENDENCIES:
   - EZKeychain (from `../`)
@@ -9,8 +9,8 @@ EXTERNAL SOURCES:
     :path: "../"
 
 SPEC CHECKSUMS:
-  EZKeychain: 728a72b95fece19c4f327b6094607b900da2feb4
+  EZKeychain: 105f3c3030bfbe46ae00bc6c014b15e618844f81
 
-PODFILE CHECKSUM: a6b3b69b927bc4b3345cbc4811358570fd26d856
+PODFILE CHECKSUM: a959ff38cff49f82b2df44da4e5391ca266bbe75
 
 COCOAPODS: 1.5.2
