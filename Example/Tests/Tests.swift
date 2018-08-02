@@ -1,7 +1,7 @@
 import XCTest
-import EZKeychain
+@testable import EZKeychain
 
-class Tests: XCTestCase {
+class EZKeychainTests: XCTestCase {
 
     private let testKey = "Testing.key"
     private let testStringValue = "Test string value"
@@ -17,66 +17,65 @@ class Tests: XCTestCase {
         super.setUp()
         keychain = EZKeychain.shared
     }
-    
+
     override func tearDown() {
-        keychain.clear(testKey)
+        keychain.clear(key: testKey)
         keychain = nil
         super.tearDown()
     }
 
-
     // MARK: - clear
     func testClear() {
         keychain.writeData(key: testKey, value: testData)
-        XCTAssertNotNil(keychain.readData(testKey))
-        keychain.clear(testKey)
-        XCTAssertNil(keychain.readData(testKey))
+        XCTAssertNotNil(keychain.readData(key: testKey))
+        keychain.clear(key: testKey)
+        XCTAssertNil(keychain.readData(key: testKey))
     }
 
     // MARK: - string
     func testWriteString() {
         keychain.writeString(key: testKey, value: testStringValue)
-        XCTAssertEqual(keychain.readString(testKey), testStringValue)
+        XCTAssertEqual(keychain.readString(key: testKey), testStringValue)
     }
 
     func testReadString() {
-        XCTAssertNil(keychain.readString(testKey))
+        XCTAssertNil(keychain.readString(key: testKey))
         keychain.writeString(key: testKey, value: testStringValue)
-        XCTAssertEqual(keychain.readString(testKey), testStringValue)
+        XCTAssertEqual(keychain.readString(key: testKey), testStringValue)
     }
 
     // MARK: - data
     func testWriteData() {
         keychain.writeData(key: testKey, value: testData)
-        XCTAssertEqual(keychain.readData(testKey), testData)
+        XCTAssertEqual(keychain.readData(key: testKey), testData)
     }
 
     func testReadData() {
-        XCTAssertNil(keychain.readData(testKey))
+        XCTAssertNil(keychain.readData(key: testKey))
         keychain.writeData(key: testKey, value: testData)
-        XCTAssertEqual(keychain.readData(testKey), testData)
+        XCTAssertEqual(keychain.readData(key: testKey), testData)
     }
 
     // MARK: - codable
     func testWriteCodable() {
         keychain.write(key: testKey, value: testCodable)
-        let actualValue: FooBarStruct? = keychain.read(testKey)
+        let actualValue: FooBarStruct? = keychain.read(key: testKey)
         XCTAssertEqual(actualValue, testCodable)
     }
 
     func testReadCodable() {
         var actualValue: FooBarStruct?
-        actualValue = keychain.read(testKey)
+        actualValue = keychain.read(key: testKey)
         XCTAssertNil(actualValue)
         keychain.write(key: testKey, value: testCodable)
-        actualValue = keychain.read(testKey)
+        actualValue = keychain.read(key: testKey)
         XCTAssertEqual(actualValue, testCodable)
     }
 
     // MARK: - NSCoding
     func testWriteObject() {
         keychain.writeObject(key: testKey, value: testCoding)
-        guard let actualValue = keychain.readObject(testKey) as? FooBarClass else {
+        guard let actualValue = keychain.readObject(key: testKey) as? FooBarClass else {
             XCTFail("Can't cast to CodingClass")
             return
         }
@@ -85,9 +84,9 @@ class Tests: XCTestCase {
     }
 
     func testReadObject() {
-        XCTAssertNil(keychain.readObject(testKey))
+        XCTAssertNil(keychain.readObject(key: testKey))
         keychain.writeObject(key: testKey, value: testCoding)
-        guard let actualValue = keychain.readObject(testKey) as? FooBarClass else {
+        guard let actualValue = keychain.readObject(key: testKey) as? FooBarClass else {
             XCTFail("Can't cast to CodingClass")
             return
         }
@@ -97,7 +96,7 @@ class Tests: XCTestCase {
 
     func testWriteObjectWithDouble() {
         keychain.writeObject(key: testKey, value: testDouble)
-        guard let actualValue = keychain.readObject(testKey) as? Double else {
+        guard let actualValue = keychain.readObject(key: testKey) as? Double else {
             XCTFail("Can't cast to Double")
             return
         }
@@ -106,7 +105,7 @@ class Tests: XCTestCase {
 
     func testWriteObjectWithArray() {
         keychain.writeObject(key: testKey, value: testArray)
-        guard let actualValue = keychain.readObject(testKey) as? [Double] else {
+        guard let actualValue = keychain.readObject(key: testKey) as? [Double] else {
             XCTFail("Can't cast to Double")
             return
         }
