@@ -14,6 +14,8 @@
 		607FACDD1AFB9204008FA782 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDC1AFB9204008FA782 /* Images.xcassets */; };
 		607FACE01AFB9204008FA782 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 607FACDE1AFB9204008FA782 /* LaunchScreen.xib */; };
 		607FACEC1AFB9204008FA782 /* Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 607FACEB1AFB9204008FA782 /* Tests.swift */; };
+		BAD0A6212105948C0072DB36 /* KeychainExample.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAD0A6202105948C0072DB36 /* KeychainExample.swift */; };
+		BAD0A625210594B80072DB36 /* KeychainExampleObjc.m in Sources */ = {isa = PBXBuildFile; fileRef = BAD0A624210594B80072DB36 /* KeychainExampleObjc.m */; };
 		BAF44F1F21032EF10072A2A6 /* FooBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF44F1E21032EF10072A2A6 /* FooBar.swift */; };
 		BAF44F2021032F070072A2A6 /* FooBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = BAF44F1E21032EF10072A2A6 /* FooBar.swift */; };
 		D27304B26C81C163721B1CB4 /* Pods_EZKeychain_Example.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 54BB55A9B24D5523118CFB26 /* Pods_EZKeychain_Example.framework */; };
@@ -47,6 +49,10 @@
 		607FACEB1AFB9204008FA782 /* Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tests.swift; sourceTree = "<group>"; };
 		7A3977A4F39425AABB90A607 /* Pods-EZKeychain_Example.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZKeychain_Example.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EZKeychain_Example/Pods-EZKeychain_Example.debug.xcconfig"; sourceTree = "<group>"; };
 		B4C1E49FA64CD5B2F6F1528D /* Pods-EZKeychain_Tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZKeychain_Tests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-EZKeychain_Tests/Pods-EZKeychain_Tests.debug.xcconfig"; sourceTree = "<group>"; };
+		BAD0A6202105948C0072DB36 /* KeychainExample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainExample.swift; sourceTree = "<group>"; };
+		BAD0A622210594B80072DB36 /* EZKeychain_Example-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "EZKeychain_Example-Bridging-Header.h"; sourceTree = "<group>"; };
+		BAD0A623210594B80072DB36 /* KeychainExampleObjc.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KeychainExampleObjc.h; sourceTree = "<group>"; };
+		BAD0A624210594B80072DB36 /* KeychainExampleObjc.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KeychainExampleObjc.m; sourceTree = "<group>"; };
 		BAF44F1E21032EF10072A2A6 /* FooBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooBar.swift; sourceTree = "<group>"; };
 		C2CEC38676121B90B84A97D7 /* Pods_EZKeychain_Tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_EZKeychain_Tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6C3E878D7ABD28D8769764E /* Pods-EZKeychain_Example.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-EZKeychain_Example.release.xcconfig"; path = "Pods/Target Support Files/Pods-EZKeychain_Example/Pods-EZKeychain_Example.release.xcconfig"; sourceTree = "<group>"; };
@@ -118,11 +124,15 @@
 			children = (
 				607FACD51AFB9204008FA782 /* AppDelegate.swift */,
 				607FACD71AFB9204008FA782 /* ViewController.swift */,
+				BAD0A623210594B80072DB36 /* KeychainExampleObjc.h */,
+				BAD0A624210594B80072DB36 /* KeychainExampleObjc.m */,
+				BAD0A6202105948C0072DB36 /* KeychainExample.swift */,
 				607FACD91AFB9204008FA782 /* Main.storyboard */,
 				607FACDC1AFB9204008FA782 /* Images.xcassets */,
 				607FACDE1AFB9204008FA782 /* LaunchScreen.xib */,
 				607FACD31AFB9204008FA782 /* Supporting Files */,
 				BAF44F1E21032EF10072A2A6 /* FooBar.swift */,
+				BAD0A622210594B80072DB36 /* EZKeychain_Example-Bridging-Header.h */,
 			);
 			name = "Example for EZKeychain";
 			path = EZKeychain;
@@ -216,7 +226,7 @@
 				TargetAttributes = {
 					607FACCF1AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 0920;
 					};
 					607FACE41AFB9204008FA782 = {
 						CreatedOnToolsVersion = 6.3.1;
@@ -326,9 +336,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BAD0A6212105948C0072DB36 /* KeychainExample.swift in Sources */,
 				607FACD81AFB9204008FA782 /* ViewController.swift in Sources */,
 				BAF44F1F21032EF10072A2A6 /* FooBar.swift in Sources */,
 				607FACD61AFB9204008FA782 /* AppDelegate.swift in Sources */,
+				BAD0A625210594B80072DB36 /* KeychainExampleObjc.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -475,11 +487,14 @@
 			baseConfigurationReference = 7A3977A4F39425AABB90A607 /* Pods-EZKeychain_Example.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = EZKeychain/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "EZKeychain/EZKeychain_Example-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
@@ -490,11 +505,13 @@
 			baseConfigurationReference = C6C3E878D7ABD28D8769764E /* Pods-EZKeychain_Example.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = EZKeychain/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MODULE_NAME = ExampleApp;
 				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.demo.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "EZKeychain/EZKeychain_Example-Bridging-Header.h";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 				SWIFT_VERSION = 4.0;
 			};
