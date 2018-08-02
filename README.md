@@ -1,6 +1,6 @@
 # EZKeychain
 
-[![CI Status](https://img.shields.io/travis/pattomotto/EZKeychain.svg?style=flat)](https://travis-ci.org/pattomotto/EZKeychain)
+[![CI Status](https://img.shields.io/travis/PattoMotto/EZKeychain.svg?style=flat)](https://travis-ci.org/PattoMotto/EZKeychain)
 [![Version](https://img.shields.io/cocoapods/v/EZKeychain.svg?style=flat)](https://cocoapods.org/pods/EZKeychain)
 [![License](https://img.shields.io/cocoapods/l/EZKeychain.svg?style=flat)](https://cocoapods.org/pods/EZKeychain)
 [![Platform](https://img.shields.io/cocoapods/p/EZKeychain.svg?style=flat)](https://cocoapods.org/pods/EZKeychain)
